@@ -1,0 +1,1029 @@
+/* ===================================================
+   RESPONSIVO — BRILLCAR (MENU HAMBURGUER + SUBMENU OK)
+   Substitua TODO o seu responsivo.css por este
+=================================================== */
+
+/* ajuda geral */
+img{ max-width: 100%; height: auto; }
+.container{ max-width: 100%; }
+
+/* topo precisa permitir posicionamento do menu mobile */
+.topo-pill{ position: relative; }
+
+/* botões do mobile começam escondidos no desktop */
+.abrir-menu,
+.fechar-menu{
+  display: none;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  padding: 6px;
+  line-height: 0;
+}
+
+.abrir-menu img,
+.fechar-menu img{
+  width: 26px;
+  height: 26px;
+  display: block;
+}
+
+/* no desktop: o botão "SERVIÇOS" não precisa parecer botão */
+.menu-link--drop{
+  background: transparent;
+  border: 0;
+  color: #fff;
+  font-family: var(--fonte-titulo);
+  font-size: 20px;
+  letter-spacing: .8px;
+  text-transform: uppercase;
+  opacity: .95;
+  cursor: pointer;
+  padding: 0;
+}
+
+.menu-link--drop:hover{ opacity: 1; }
+
+.seta-drop{
+  display: inline-block;
+  margin-left: 6px;
+  transform: translateY(-1px);
+  font-size: 14px;
+  opacity: .9;
+}
+
+/* no desktop: submenu continua no hover */
+@media (min-width: 787px){
+  .menu-login{ display: none; } /* login só no menu mobile */
+  .fechar-menu{ display:none; }
+  .menu-item--dropdown:hover .submenu{
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translateX(-50%) translateY(2px);
+  }
+}
+
+/* ===================================================
+   ATÉ 1200px (notebook)
+=================================================== */
+@media (max-width: 1200px){
+
+  .container{
+    width: 100%;
+    padding: 0 22px;
+  }
+
+  .faixa-parallax{ background-attachment: scroll; }
+
+  /* HERO */
+  .hero{ min-height: 520px; }
+
+  .topo-pill{
+    width: 60%;
+    padding: 0 16px;
+  }
+
+  .topo-pill__menu{ gap: 16px; }
+  .topo-pill__menu a{ font-size: 20px; }
+
+  .icone-perfil {
+    width: 40px;
+    height: 40px;
+  }
+
+  .icone-perfil__img {
+    width: 25px;
+    height: 20px;
+  }
+  .hero__texto{
+    margin-top: 70px;
+    max-width: 680px;
+  }
+
+  .hero__subtitulo{ font-size: 22px; }
+
+  /* SOBRE */
+  .sobre{
+    grid-template-columns: 420px 1fr;
+    gap: 26px;
+  }
+
+  .imagem-quadro{
+    width: 100%;
+    height: 520px;
+  }
+
+  /* SERVIÇOS (fallback grid) */
+  .grade-servicos{ grid-template-columns: repeat(3, 1fr); }
+
+  /* PACOTES */
+  .grade-pacotes{
+    width: 100%;
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  /* DIFERENCIAIS */
+  .grade-diferenciais{
+    grid-template-columns: 1fr 1fr;
+    grid-auto-rows: auto;      /* <- importante: sem altura fixa */
+    gap: 18px;
+    align-items: stretch;
+  }
+
+  /* card grande vira 1 linha inteira (NÃO pode continuar span 2) */
+  .diferencial--grande{
+    grid-column: 1 / -1;
+    grid-row: auto !important;
+    grid-row-end: span 1 !important;  /* <- anula o span 2 do CSS base */
+    height: 260px;
+    overflow: hidden;
+  }
+
+  /* flips ficam com altura consistente sem “empurrar” o grid */
+  .diferencial--flip{
+    min-height: 220px;
+    height: auto;
+    overflow: hidden;
+  }
+
+  .diferencial--flip .flip,
+  .diferencial--flip .flip__face{
+    height: 100%;
+  }
+
+  /* PARCEIROS */
+  .parceiros__logo{ width: 105px !important; height: 105px !important; }
+  .parceiros__logo img{ width: 86px !important; height: 86px !important; }
+
+  /* AVALIAÇÃO */
+  #avaliacao .container{ padding: 44px 18px 40px; }
+  .painel-avaliacao__numeros{ gap: 30px; }
+  .painel-avaliacao__frase{ width: 100%; }
+
+  /* FAQ */
+  .faq-layout{
+    grid-template-columns: 460px 1fr;
+    gap: 40px;
+  }
+
+  .faq-imagem{ width: 100%; }
+  .faq-box-pergunta{ margin-top: 60px; }
+
+  /* CONTATO */
+  .contato-hero{ min-height: 390px; }
+
+  .contato-section__grid{
+    grid-template-columns: minmax(0, 430px) minmax(0, 1fr);
+    gap: 24px;
+  }
+
+  .contato-formulario{
+    padding: 28px 24px;
+  }
+
+  .contato-info{
+    padding: 34px 28px;
+  }
+
+  .contato-info__cards{
+    grid-template-columns: 1fr;
+  }
+
+  /* FOOTER */
+  .rodape__conteudo{
+    grid-template-columns: 300px 200px 200px 1fr;
+    gap: 26px;
+  }
+
+  .rodape__mapa{ height: 200px; }
+}
+
+/* ===================================================
+   ATÉ 786px (tablet / celular grande)
+   -> aqui vira hamburguer
+=================================================== */
+@media (max-width: 786px){
+
+  .secao{ padding: 44px 0; }
+
+  /* deixa topo “compacto” */
+  .topo-pill{
+    width: 80%;
+    height: 56px;
+    padding: 0 12px;
+    border-radius: 26px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+  }
+
+  /* mostra botão abrir no mobile */
+  .abrir-menu{ display: inline-flex; }
+
+  /* login do desktop some (vai pro menu) */
+  .topo-pill__dir{ display: none; }
+
+  /* MENU vira drawer lateral (nav) */
+  .topo-pill__menu{
+    position: fixed;
+    top: 0;
+    right: -420px;          /* escondido */
+    height: 100vh;
+    width: min(380px, 86vw);
+    background: rgba(14,41,64,.97);
+
+    padding: 18px 18px 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+
+    border-left: 1px solid rgba(217,147,61,.20);
+    box-shadow: -20px 0 40px rgba(0,0,0,.35);
+    z-index: 9999;
+
+    transition: right .35s ease;
+
+    /* ✅ IMPORTANTE: permite submenu abrir e rolar sem cortar */
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  /* quando abre: classe no html */
+  html.menu-mobile .topo-pill__menu{ right: 0; }
+
+  /* botão fechar aparece dentro do menu */
+  .fechar-menu{
+    display: inline-flex;
+    align-self: flex-end;
+    margin-bottom: 6px;
+  }
+
+  /* Login dentro do menu */
+  .menu-login{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    padding: 12px 14px;
+    border-radius: 14px;
+
+    background: rgba(255,255,255,.06);
+    border: 1px solid rgba(255,255,255,.08);
+  }
+
+  .menu-login__icone{
+    width: 36px;
+    height: 36px;
+    border-radius: 999px;
+    display: grid;
+    place-items: center;
+
+    background: rgba(255,255,255,.10);
+    border: 1px solid rgba(255,255,255,.10);
+  }
+
+  .menu-login__icone img{
+    width: 18px;
+    height: 18px;
+    display: block;
+  }
+
+  .menu-login__texto{
+    font-family: var(--fonte-titulo);
+    font-size: 22px;
+    letter-spacing: .8px;
+    color: #fff;
+  }
+
+  /* links do menu (padronizados) */
+  .topo-pill__menu > a{
+    width: 100%;
+    padding: 14px 14px;
+    border-radius: 14px;
+
+    font-family: var(--fonte-titulo);
+    font-size: 22px;
+    letter-spacing: .8px;
+    color: #fff;
+    text-transform: uppercase;
+
+    background: rgba(255,255,255,.04);
+    border: 1px solid rgba(255,255,255,.06);
+  }
+
+  .topo-pill__menu > a:hover{
+    border-color: rgba(217,147,61,.35);
+    background: rgba(217,147,61,.10);
+  }
+
+  /* =============== DROPDOWN (SERVIÇOS) MOBILE =============== */
+
+  /* wrapper não pode ter estilo diferente: padroniza */
+  .menu-item--dropdown{
+    width: 100%;
+  }
+
+  /* botão do dropdown fica IGUAL aos outros links */
+  .menu-link--drop{
+    width: 100%;
+    text-align: left;
+
+    padding: 14px 14px;
+    border-radius: 14px;
+
+    background: rgba(255,255,255,.04);
+    border: 1px solid rgba(255,255,255,.06);
+
+    font-family: var(--fonte-titulo);
+    font-size: 22px;
+    letter-spacing: .8px;
+    color: #fff;
+    text-transform: uppercase;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .menu-link--drop:hover{
+    border-color: rgba(217,147,61,.35);
+    background: rgba(217,147,61,.10);
+  }
+
+  /* ✅ Submenu no mobile vira bloco interno (NÃO absoluto) */
+  .submenu{
+    position: static !important;
+    transform: none !important;
+
+    min-width: 0;
+    padding: 10px 10px 12px;
+    margin-top: 8px;
+
+    border-radius: 14px;
+    background: rgba(0,0,0,.18);
+    border: 1px solid rgba(255,255,255,.06);
+
+    display: none;          /* fechado */
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+  }
+
+  /* abre quando adiciona classe via JS */
+  .menu-item--dropdown.is-open .submenu{ display: grid; }
+
+  .submenu a{
+    width: 100%;
+    padding: 12px 12px;
+    border-radius: 12px;
+
+    background: rgba(255,255,255,.05);
+    border: 1px solid rgba(255,255,255,.06);
+
+    color: #fff;
+    font-family: var(--fonte-texto);
+    font-size: 15px ! important;
+    text-transform: none;
+  }
+
+  .submenu a:hover{
+    background: rgba(217,147,61,.14);
+    border-color: rgba(217,147,61,.28);
+  }
+
+  /* HERO texto */
+  .hero__texto{
+    margin-top: 56px;
+    text-align: center;
+    max-width: 100%;
+  }
+
+  .hero__botoes{
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  /* SOBRE (1 coluna) */
+  .sobre{ grid-template-columns: 1fr; }
+
+  .sobre__imagem{
+    display: flex;
+    justify-content: center;
+  }
+
+  .imagem-quadro{
+    display: none;
+  }
+
+  .sobre__texto .titulo,
+  .sobre__texto .subtitulo-destaque{
+    text-align: center;
+  }
+
+  /* SERVIÇOS fallback */
+  .grade-servicos{
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+
+  /* PACOTES (2 colunas) */
+  .grade-pacotes{
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+  }
+
+  /* DIFERENCIAIS (1 coluna) */
+  .grade-diferenciais{
+    grid-template-columns: 1fr;
+    grid-auto-rows: auto;
+  }
+
+  .diferencial--grande{ height: 260px; }
+
+  .diferencial--flip{
+    height: 190px;
+    position: relative;
+  }
+
+  .diferencial--flip .flip{ height: 100%; }
+  .diferencial--flip .flip__face{ height: 100%; }
+
+  /* PARCEIROS */
+  .parceiros__track{ gap: 14px; }
+  .parceiros__logo{ width: 92px !important; height: 92px !important; }
+  .parceiros__logo img{ width: 74px !important; height: 74px !important; }
+
+  /* AVALIAÇÃO */
+  #avaliacao .container{
+    border-radius: 16px;
+    padding: 36px 14px 30px;
+  }
+
+  .painel-avaliacao__estrelas img{
+    width: 24px;
+    height: 24px;
+    margin-bottom: 10px;
+  }
+
+  .painel-avaliacao__numeros{
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+    margin: 10px 0 22px;
+  }
+
+  .caixa-numero{
+    width: min(280px, 100%);
+    height: 120px;
+  }
+
+  /* FAQ */
+  #faq{ width: 90%; }
+
+  .faq-layout{
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .faq-imagem{ display: none; }
+
+  .faq-box-pergunta{ margin-top: 24px; }
+  .faq-subtitulo{ font-size: 30px; }
+
+  /* CONTATO */
+  .contato-hero{
+    min-height: 360px;
+  }
+
+  .contato-hero__texto{
+    margin-top: 56px;
+    max-width: 100%;
+    text-align: center;
+  }
+
+  .contato-section__grid{
+    grid-template-columns: 1fr;
+  }
+
+  .contato-formulario{
+    padding: 26px 20px;
+  }
+
+  .contato-formulario__campo{
+    min-height: 52px;
+  }
+
+  .contato-formulario__campo--textarea{
+    min-height: 140px;
+  }
+
+  .contato-info{
+    padding: 30px 22px;
+    border-radius: 20px;
+  }
+
+  .contato-info__titulo{
+    font-size: 48px;
+  }
+
+  .contato-info__texto{
+    margin-bottom: 26px;
+    font-size: 16px;
+  }
+
+  .contato-info__cards{
+    grid-template-columns: 1fr;
+  }
+
+  .contato-info__card{
+    min-height: auto;
+  }
+
+  /* POLIMENTO */
+  .polimento-grade--dores{
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .polimento-grade--beneficios{
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .revitalizacao-grade--dores,
+  .higienizacao-grade--dores,
+  .vitrificacao-grade--dores,
+  .cristalizacao-grade--dores{
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .revitalizacao-grade--beneficios,
+  .higienizacao-grade--beneficios,
+  .vitrificacao-grade--beneficios,
+  .cristalizacao-grade--beneficios{
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .polimento-comparativo{
+    grid-template-columns: 1fr;
+  }
+
+  .revitalizacao-comparativo,
+  .higienizacao-comparativo,
+  .vitrificacao-comparativo,
+  .cristalizacao-comparativo{
+    grid-template-columns: 1fr;
+  }
+
+  .polimento-comparativo__imagem{
+    height: 300px;
+  }
+
+  .revitalizacao-comparativo__imagem,
+  .higienizacao-comparativo__imagem,
+  .vitrificacao-comparativo__imagem,
+  .cristalizacao-comparativo__imagem{
+    height: 300px;
+  }
+
+  .polimento-etapas{
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .revitalizacao-etapas,
+  .higienizacao-etapas,
+  .vitrificacao-etapas,
+  .cristalizacao-etapas{
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .polimento-cta__box{
+    padding: 34px 28px;
+  }
+
+  .revitalizacao-cta__box,
+  .higienizacao-cta__box,
+  .vitrificacao-cta__box,
+  .cristalizacao-cta__box{
+    padding: 34px 28px;
+  }
+
+  /* FOOTER */
+  .rodape__conteudo{
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* 2 colunas */
+    gap: 22px;
+    align-items: start;
+  }
+
+  /* 1ª coluna (logo) ocupa a largura toda */
+  .rodape__conteudo .rodape__coluna:first-child{
+    grid-column: 1 / -1;
+    text-align: center;
+  }
+
+  /* 2ª e 3ª colunas (MENU e SERVIÇOS) ficam lado a lado */
+  .rodape__conteudo .rodape__coluna:nth-child(2),
+  .rodape__conteudo .rodape__coluna:nth-child(3){
+    grid-column: auto;
+    text-align: center;
+    margin-top: 0; /* tira aquele offset que você tinha no desktop */
+  }
+
+  /* mapa ocupa a largura toda */
+  .rodape__mapa{
+    grid-column: 1 / -1;
+    height: 240px;
+  }
+
+  /* remove os divisores verticais no mobile */
+  .rodape__coluna:not(:first-child)::before{
+    display: none;
+  }
+
+  .rodape__redes{
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+}
+
+/* ===================================================
+   ATÉ 380px (celular pequeno)
+=================================================== */
+@media (max-width: 380px){
+
+  .faixa-parallax__titulo{
+    font-size: 40px;
+  }
+
+  .faixa-parallax__texto{
+    font-size: 20px;
+  }
+
+  .container{ padding: 0 14px; }
+
+  /* HERO */
+  .hero{ min-height: 540px; }
+
+  .topo-pill__logo{ width: 78px; }
+
+  /* menu lateral mais estreito */
+  .topo-pill__menu{
+    width: min(310px, 88vw);
+    padding: 16px 14px 18px;
+  }
+
+  .topo-pill__menu > a,
+  .menu-link--drop{
+    font-size: 20px;
+    padding: 12px 12px;
+    border-radius: 14px;
+  }
+
+  .submenu{ padding: 10px; }
+  .submenu a{ padding: 10px 10px; font-size: 14px !important; }
+
+  .hero__subtitulo{ font-size: 20px; }
+
+  .btn{
+    font-size: 20px;
+    padding: 8px 18px;
+    border-radius: 18px;
+  }
+
+  /* SOBRE */
+
+  .sobre__texto{
+    text-align: justify;
+  }
+
+  .lista-icones{
+    gap: 18px; /* mais respiro entre itens */
+  }
+
+  .item-icone{
+    flex-direction: column;
+    align-items: center;
+    text-align: justify;
+    gap: 10px;
+    margin-bottom: 18px;
+  }
+
+  .bolinha-icone{
+    flex: 0 0 auto;   /* não força largura fixa */
+    width: 56px;      /* ajuste se quiser maior/menor */
+    height: 56px;
+  }
+
+  .bolinha-icone img{
+    width: 28px;
+    height: 28px;
+  }
+
+  .item-icone .texto{
+    margin: 0;
+    line-height: 1.6;
+  }
+
+  /* SERVIÇOS */
+  .grade-servicos{ grid-template-columns: 1fr; }
+
+  /* PACOTES */
+  .grade-pacotes{ grid-template-columns: 1fr; }
+
+  .pacote__titulo{ font-size: 20px; }
+
+  /* DIFERENCIAIS */
+  .diferencial--grande{ height: 240px; }
+  .diferencial--flip{ height: 180px; }
+
+  .diferencial--grande .diferencial__titulo{ font-size: 26px; }
+
+  /* PARCEIROS */
+  .parceiros__logo{ width: 84px !important; height: 84px !important; }
+  .parceiros__logo img{ width: 66px !important; height: 66px !important; }
+
+  /* FAQ */
+  .faq-titulo{ font-size: 38px; }
+  #faq{
+    margin: 0 auto;
+  }
+
+  /* CONTATO */
+  .contato-hero{
+    min-height: 330px;
+  }
+
+  .contato-formulario{
+    padding: 22px 16px;
+  }
+
+  .contato-formulario__label{
+    font-size: 15px;
+  }
+
+  .contato-formulario__campo{
+    padding: 0 14px;
+    font-size: 14px;
+  }
+
+  .contato-formulario__campo--textarea{
+    padding: 14px;
+  }
+
+  .contato-info{
+    padding: 24px 16px;
+  }
+
+  .contato-info__eyebrow{
+    font-size: 22px;
+  }
+
+  .contato-info__titulo{
+    font-size: 38px;
+  }
+
+  .contato-info__card{
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .contato-info__icone{
+    width: 58px;
+    height: 58px;
+    flex-basis: 58px;
+  }
+
+  .contato-info__card-titulo{
+    font-size: 24px;
+  }
+
+  /* POLIMENTO */
+  .polimento-cabecalho{
+    margin-bottom: 24px;
+  }
+
+  .revitalizacao-cabecalho,
+  .higienizacao-cabecalho,
+  .vitrificacao-cabecalho,
+  .cristalizacao-cabecalho{
+    margin-bottom: 24px;
+  }
+
+  .polimento-cabecalho .texto{
+    font-size: 16px;
+  }
+
+  .revitalizacao-cabecalho .texto,
+  .higienizacao-cabecalho .texto,
+  .vitrificacao-cabecalho .texto,
+  .cristalizacao-cabecalho .texto{
+    font-size: 16px;
+  }
+
+  .polimento-grade--dores,
+  .polimento-grade--beneficios,
+  .polimento-etapas{
+    grid-template-columns: 1fr;
+  }
+
+  .revitalizacao-grade--dores,
+  .revitalizacao-grade--beneficios,
+  .revitalizacao-etapas,
+  .higienizacao-grade--dores,
+  .higienizacao-grade--beneficios,
+  .higienizacao-etapas,
+  .vitrificacao-grade--dores,
+  .vitrificacao-grade--beneficios,
+  .vitrificacao-etapas,
+  .cristalizacao-grade--dores,
+  .cristalizacao-grade--beneficios,
+  .cristalizacao-etapas{
+    grid-template-columns: 1fr;
+  }
+
+  .polimento-card,
+  .polimento-beneficio,
+  .polimento-etapa{
+    padding: 22px 18px;
+  }
+
+  .revitalizacao-card,
+  .revitalizacao-beneficio,
+  .revitalizacao-etapa,
+  .higienizacao-card,
+  .higienizacao-beneficio,
+  .higienizacao-etapa,
+  .vitrificacao-card,
+  .vitrificacao-beneficio,
+  .vitrificacao-etapa,
+  .cristalizacao-card,
+  .cristalizacao-beneficio,
+  .cristalizacao-etapa{
+    padding: 22px 18px;
+  }
+
+  .polimento-card__titulo,
+  .polimento-beneficio__titulo,
+  .polimento-etapa__titulo{
+    font-size: 26px;
+  }
+
+  .revitalizacao-card__titulo,
+  .revitalizacao-beneficio__titulo,
+  .revitalizacao-etapa__titulo,
+  .higienizacao-card__titulo,
+  .higienizacao-beneficio__titulo,
+  .higienizacao-etapa__titulo,
+  .vitrificacao-card__titulo,
+  .vitrificacao-beneficio__titulo,
+  .vitrificacao-etapa__titulo,
+  .cristalizacao-card__titulo,
+  .cristalizacao-beneficio__titulo,
+  .cristalizacao-etapa__titulo{
+    font-size: 26px;
+  }
+
+  .polimento-comparativo__item{
+    padding: 18px;
+  }
+
+  .revitalizacao-comparativo__item,
+  .higienizacao-comparativo__item,
+  .vitrificacao-comparativo__item,
+  .cristalizacao-comparativo__item{
+    padding: 18px;
+  }
+
+  .polimento-comparativo__imagem{
+    height: 240px;
+  }
+
+  .revitalizacao-comparativo__imagem,
+  .higienizacao-comparativo__imagem,
+  .vitrificacao-comparativo__imagem,
+  .cristalizacao-comparativo__imagem{
+    height: 240px;
+  }
+
+  .polimento-comparativo__tag{
+    min-width: 90px;
+    font-size: 18px;
+  }
+
+  .revitalizacao-comparativo__tag,
+  .higienizacao-comparativo__tag,
+  .vitrificacao-comparativo__tag,
+  .cristalizacao-comparativo__tag{
+    min-width: 90px;
+    font-size: 18px;
+  }
+
+  .polimento-cta__box{
+    padding: 28px 18px;
+    border-radius: 22px;
+  }
+
+  .revitalizacao-cta__box,
+  .higienizacao-cta__box,
+  .vitrificacao-cta__box,
+  .cristalizacao-cta__box{
+    padding: 28px 18px;
+    border-radius: 22px;
+  }
+
+  .polimento-cta__texto{
+    font-size: 16px;
+  }
+
+  .revitalizacao-cta__texto,
+  .higienizacao-cta__texto,
+  .vitrificacao-cta__texto,
+  .cristalizacao-cta__texto{
+    font-size: 16px;
+  }
+
+  /* FOOTER */
+  .rodape__final{
+    font-size: 12px;
+    padding: 10px 12px;
+  }
+}
+
+@media (max-width: 1100px){
+  .polimento-grade--beneficios{
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .polimento-etapas{
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .polimento-comparativo__imagem{
+    height: 280px;
+  }
+}
+
+@media (max-width: 900px){
+  .polimento-grade--dores{
+    grid-template-columns: 1fr;
+  }
+
+  #servico-detalhe .sobre{
+    gap: 24px;
+  }
+}
+
+@media (max-width: 768px){
+  .polimento-cabecalho{
+    margin-bottom: 26px;
+  }
+
+  .polimento-cabecalho__eyebrow{
+    font-size: 20px;
+  }
+
+  .polimento-card,
+  .polimento-beneficio,
+  .polimento-etapa{
+    padding: 20px 18px;
+  }
+
+  .polimento-grade--beneficios,
+  .polimento-etapas{
+    grid-template-columns: 1fr;
+  }
+
+  .polimento-comparativo__imagem{
+    height: 240px;
+    border-radius: 16px;
+  }
+
+  .polimento-cta__box{
+    padding: 32px 22px;
+  }
+}
+
+@media (max-width: 480px){
+  .polimento-cabecalho .texto,
+  .polimento-cta__texto{
+    font-size: 15px;
+  }
+
+  .polimento-card__titulo,
+  .polimento-beneficio__titulo,
+  .polimento-etapa__titulo{
+    font-size: 24px;
+  }
+
+  .polimento-comparativo__imagem{
+    height: 220px;
+  }
+
+  .polimento-comparativo__tag{
+    min-width: 64px;
+    font-size: 12px;
+    padding: 5px 10px;
+  }
+}

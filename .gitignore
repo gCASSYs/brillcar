@@ -1,0 +1,8 @@
+.env
+.env.*
+!.env.example
+.codex-backup/
+.vscode/
+Thumbs.db
+.DS_Store
+*.log
