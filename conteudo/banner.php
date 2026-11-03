@@ -15,8 +15,8 @@
       </p>
 
       <div class="hero__botoes">
-        <a class="btn" href="#orcamentos">ORÇAMENTO</a>
-        <a class="btn btn--secundario" href="#servicos">SERVIÇOS</a>
+        <a class="btn" href="<?php echo $basePath; ?>orcamentos.php">ORÇAMENTO</a>
+        <a class="btn btn--secundario" href="<?php echo $basePath; ?>servicos.php">SERVIÇOS</a>
       </div>
     </div>
   </div>

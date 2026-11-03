@@ -1,4 +1,6 @@
 .env
+storage/sessions/*
+!storage/sessions/.gitkeep
 .env.*
 !.env.example
 .codex-backup/

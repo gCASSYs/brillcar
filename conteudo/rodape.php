@@ -4,6 +4,11 @@ $assetPath = $basePath . 'assets/';
 $servicosDir = $basePath . 'servicos/';
 $paginaAtualRodape = basename(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
 $isHomePage = $paginaAtualRodape === 'index.php' || $paginaAtualRodape === '';
+$socialLinks = [
+  'Instagram' => [getenv('BRILLCAR_INSTAGRAM') ?: '', 'instagram-24.png'],
+  'Facebook' => [getenv('BRILLCAR_FACEBOOK') ?: '', 'facebook-24.png'],
+  'LinkedIn' => [getenv('BRILLCAR_LINKEDIN') ?: '', 'linkedin-24.png'],
+];
 ?>
 
 <footer class="rodape" id="contato">
@@ -12,9 +17,10 @@ $isHomePage = $paginaAtualRodape === 'index.php' || $paginaAtualRodape === '';
       <div class="rodape__logo"><img src="<?php echo $assetPath; ?>LogoInteira.png" alt="Logo Inteira da Estética BrillCar"></div>
       <p class="rodape__texto">Cuidado, excelência e valorização<br>em cada detalhe</p>
       <div class="rodape__redes" aria-label="Redes sociais da BrillCar">
-        <a class="rede" href="#" aria-label="Instagram"><img src="<?php echo $assetPath; ?>instagram-24.png" alt=""></a>
-        <a class="rede" href="#" aria-label="Facebook"><img src="<?php echo $assetPath; ?>facebook-24.png" alt=""></a>
-        <a class="rede" href="#" aria-label="LinkedIn"><img src="<?php echo $assetPath; ?>linkedin-24.png" alt=""></a>
+        <?php foreach ($socialLinks as $name => [$url, $icon]) {
+          if (!filter_var($url, FILTER_VALIDATE_URL)) continue; ?>
+          <a class="rede" href="<?php echo htmlspecialchars($url, ENT_QUOTES, 'UTF-8'); ?>" target="_blank" rel="noopener noreferrer" aria-label="<?php echo $name; ?>"><img src="<?php echo $assetPath . $icon; ?>" alt=""></a>
+        <?php } ?>
       </div>
     </div>
 

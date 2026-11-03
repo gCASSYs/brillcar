@@ -7,6 +7,13 @@ $ok = 0;
 $mensagemRetorno = '';
 $classeRetorno = '';
 $nomeInformado = '';
+if (session_status() !== PHP_SESSION_ACTIVE) {
+    $sessionPath = __DIR__ . '/storage/sessions';
+    if (!is_dir($sessionPath)) mkdir($sessionPath, 0775, true);
+    session_save_path($sessionPath);
+    session_start(['cookie_httponly' => true, 'cookie_samesite' => 'Lax', 'use_strict_mode' => true]);
+}
+if (empty($_SESSION['contact_csrf'])) $_SESSION['contact_csrf'] = bin2hex(random_bytes(32));
 
 if (isset($_GET['status'])) {
     $nomeInformado = trim($_GET['nome'] ?? '');
@@ -36,6 +43,9 @@ if (isset($_POST['email'])) {
     $mail = new PHPMailer(true);
 
     try {
+        if (!hash_equals($_SESSION['contact_csrf'], (string) ($_POST['csrf_token'] ?? ''))) {
+            throw new \RuntimeException('Sessão expirada.');
+        }
         $nome = trim($_POST['nome'] ?? '');
         $email = trim($_POST['email'] ?? '');
         $fone = trim($_POST['telefone'] ?? '');
@@ -44,14 +54,15 @@ if (isset($_POST['email'])) {
         $nomeInformado = $nome;
 
         // Valida os campos principais antes de salvar e enviar.
-        $motivosPermitidos = ['duvidas', 'parceria', 'reclamacao'];
+        $motivosPermitidos = ['orcamento', 'duvidas', 'parceria', 'reclamacao'];
         if (
             $nome === '' ||
             $email === '' ||
             !filter_var($email, FILTER_VALIDATE_EMAIL) ||
             $assunto === '' ||
             !in_array($assunto, $motivosPermitidos, true) ||
-            $mens === ''
+            $mens === '' ||
+            mb_strlen($nome) > 150 || mb_strlen($email) > 254 || mb_strlen($fone) > 30 || mb_strlen($mens) > 5000
         ) {
             throw new \Exception('Dados do formulario invalidos.');
         }
@@ -84,13 +95,8 @@ if (isset($_POST['email'])) {
 
         $mail->isHTML(true);
         $mail->Subject = 'Site BrillCar';
-        $mail->Body = "
-            Nome: $nome <br>
-            E-mail: $email <br>
-            Telefone: $fone <br>
-            Assunto: $assunto <br>
-            Mensagem: $mens
-        ";
+        $safe = static fn(string $value): string => htmlspecialchars($value, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+        $mail->Body = 'Nome: ' . $safe($nome) . '<br>E-mail: ' . $safe($email) . '<br>Telefone: ' . $safe($fone) . '<br>Assunto: ' . $safe($assunto) . '<br>Mensagem: ' . nl2br($safe($mens));
         $mail->AltBody = "
             Nome: $nome \n
             E-mail: $email \n
@@ -101,9 +107,11 @@ if (isset($_POST['email'])) {
 
         $mail->send();
 
+        $_SESSION['contact_csrf'] = bin2hex(random_bytes(32));
         header('Location: contatos.php?status=sucesso&nome=' . urlencode($nomeInformado));
         exit;
     } catch (\Throwable $e) {
+        error_log($e->getMessage());
         header('Location: contatos.php?status=erro&nome=' . urlencode($nomeInformado));
         exit;
     }
@@ -171,7 +179,8 @@ if (isset($_POST['email'])) {
             <div class="container">
                 <div class="contato-section__grid">
                     <div class="contato-formulario">
-                        <form class="contato-formulario__form" action="#" method="POST">
+                        <form class="contato-formulario__form" id="formulario-contato" action="contatos.php#formulario-contato" method="POST">
+                            <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['contact_csrf'], ENT_QUOTES, 'UTF-8'); ?>">
                             <?php if ($mensagemRetorno !== '') { ?>
                                 <div class="<?php echo $classeRetorno; ?>" role="status" aria-live="polite">
                                     <?php echo htmlspecialchars($mensagemRetorno, ENT_QUOTES, 'UTF-8'); ?>
@@ -197,10 +206,12 @@ if (isset($_POST['email'])) {
                                 <label class="contato-formulario__label" for="motivo">Motivo do contato</label>
                                 <div class="contato-formulario__select-wrap">
                                     <select class="contato-formulario__campo contato-formulario__campo--select" name="motivo" id="motivo">
-                                        <option value="" disabled hidden <?php echo empty($_POST['motivo']) ? 'selected' : ''; ?>>Selecione uma opcao</option>
-                                        <option value="duvidas" <?php echo (($_POST['motivo'] ?? '') === 'duvidas') ? 'selected' : ''; ?>>Duvidas</option>
-                                        <option value="parceria" <?php echo (($_POST['motivo'] ?? '') === 'parceria') ? 'selected' : ''; ?>>Parceria</option>
-                                        <option value="reclamacao" <?php echo (($_POST['motivo'] ?? '') === 'reclamacao') ? 'selected' : ''; ?>>Reclamacao</option>
+                                        <?php $motivoSelecionado = $_POST['motivo'] ?? $_GET['motivo'] ?? ''; ?>
+                                        <option value="" disabled hidden <?php echo empty($motivoSelecionado) ? 'selected' : ''; ?>>Selecione uma opção</option>
+                                        <option value="orcamento" <?php echo $motivoSelecionado === 'orcamento' ? 'selected' : ''; ?>>Orçamento</option>
+                                        <option value="duvidas" <?php echo $motivoSelecionado === 'duvidas' ? 'selected' : ''; ?>>Dúvidas</option>
+                                        <option value="parceria" <?php echo $motivoSelecionado === 'parceria' ? 'selected' : ''; ?>>Parceria</option>
+                                        <option value="reclamacao" <?php echo $motivoSelecionado === 'reclamacao' ? 'selected' : ''; ?>>Reclamação</option>
                                     </select>
                                 </div>
                             </div>
